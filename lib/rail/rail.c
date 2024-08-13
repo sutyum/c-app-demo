@@ -1,7 +1,3 @@
-#include "rail.h"
-#include <stdio.h>
-// #include <assert.h>
-
 /*
   * This module models the states and the behavior of a rail.
   * A rail is a straight line of a fixed length.
@@ -12,6 +8,10 @@
   *  go to a position on the rail
   *  get the current position on the rail
 */
+
+#include "rail.h"
+#include <stdio.h>
+// #include <assert.h>
 
 #define print_rail(rail) printf("RAIL[name=%s, pos=%d, length=%d]\n", #rail, rail.pos, rail.length)
 
