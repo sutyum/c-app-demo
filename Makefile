@@ -41,7 +41,7 @@ build-test: build-dir
 	$(cc) $(CFLAGS) $(TEST_FILES) $(LIB_FILES) -o $(BUILD_DIR)/test/$(TEST_BINARY)-$(BUILD_TYPE)
 
 test: build-test
-	./$(BUILD_DIR)/$(TEST_BINARY)-$(BUILD_TYPE)
+	./$(BUILD_DIR)/test/$(TEST_BINARY)-$(BUILD_TYPE)
 
 clean:
 	rm -rf $(BUILD_DIR)
