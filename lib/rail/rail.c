@@ -23,7 +23,7 @@ rail_t rail_init(uint16_t length) {
 }
 
 rail_t rail_goto(rail_t rail, uint16_t pos) {
-  if (pos < 0 || pos > rail.length) {
+  if (pos > rail.length) {
     return (rail_t){
       .status = ERR,
     };
