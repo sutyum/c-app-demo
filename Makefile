@@ -3,13 +3,15 @@ cc:=gcc
 BUILD_TYPE ?= debug
 
 BUILD_DIR:=build
-SRC_DIR:=src
+SRC_DIR:=app
 INCLUDE_DIR:=include
 LIB_DIR:=lib
 TEST_DIR:=test
 
-SRC_FILES:=$(wildcard $(SRC_DIR)/*.c)
-LIB_FILES:=$(wildcard $(LIB_DIR)/*.c)
+TRAY_SRC_FILES:=$(wildcard $(SRC_DIR)/tray/*.c)
+GANTRY_SRC_FILES:=$(wildcard $(SRC_DIR)/gantry/*.c)
+
+LIB_FILES:=$(wildcard $(LIB_DIR)/**/*.c)
 TEST_FILES:=$(wildcard $(TEST_DIR)/*.c)
 
 ifeq ($(BUILD_TYPE), debug)
@@ -20,20 +22,26 @@ else
 	$(error "Invalid build type")
 endif
 
-FIRMWARE_BINARY:=rail
+TRAY_BINARY:=tray
 TEST_BINARY:=test
 
-run: build
-	./$(BUILD_DIR)/$(FIRMWARE_BINARY)-$(BUILD_TYPE)
+run: build-tray
+	./$(BUILD_DIR)/tray/$(TRAY_BINARY)-$(BUILD_TYPE)
 
 build-dir:
 	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)/test
+	mkdir -p $(BUILD_DIR)/tray
+	mkdir -p $(BUILD_DIR)/gantry
 
-build: build-dir
-	$(cc) $(CFLAGS) $(SRC_FILES) $(LIB_FILES) -o $(BUILD_DIR)/$(FIRMWARE_BINARY)-$(BUILD_TYPE)
+build-tray: build-dir
+	$(cc) $(CFLAGS) $(TRAY_SRC_FILES) $(LIB_FILES) -o $(BUILD_DIR)/tray/$(TRAY_BINARY)-$(BUILD_TYPE)
 
 build-test: build-dir
-	$(cc) $(CFLAGS) $(TEST_FILES) $(LIB_FILES) -o $(BUILD_DIR)/$(TEST_BINARY)-$(BUILD_TYPE)
+	$(cc) $(CFLAGS) $(TEST_FILES) $(LIB_FILES) -o $(BUILD_DIR)/test/$(TEST_BINARY)-$(BUILD_TYPE)
 
 test: build-test
 	./$(BUILD_DIR)/$(TEST_BINARY)-$(BUILD_TYPE)
+
+clean:
+	rm -rf $(BUILD_DIR)

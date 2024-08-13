@@ -13,6 +13,8 @@
   *  get the current position on the rail
 */
 
+#define print_rail(rail) printf("RAIL[name=%s, pos=%d, length=%d]\n", #rail, rail.pos, rail.length)
+
 rail_t rail_init(uint16_t length) {
   return (rail_t) {
     .pos = 0,
@@ -40,6 +42,7 @@ test_stats_t test_rail() {
   printf("rail length: %d\n", r.length);
 
   r = rail_goto(r, 5);
+  print_rail(r);
   if (r.status == ERR) {
     stats.failed += 1;
     printf("Error: position out of bounds\n");
